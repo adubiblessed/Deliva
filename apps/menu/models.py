@@ -1,5 +1,6 @@
 from django.db import models
 
+from decimal import Decimal
 from core.models import BaseModel
 
 class MenuCategory(BaseModel):
@@ -7,7 +8,7 @@ class MenuCategory(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    postion = models.PositiveIntegerField(default=0)
+    position = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} - {self.restaurant.name}"
@@ -21,7 +22,7 @@ class MenuItem(BaseModel):
     is_available = models.BooleanField(default=True)
     image = models.ImageField(upload_to='menu_items/', blank=True, null=True)
     prep_time_minutes = models.PositiveIntegerField(default=15)
-    rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=Decimal('0.0'))
 
     def __str__(self):
         return f"{self.name} - {self.category.name}"

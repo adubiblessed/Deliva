@@ -21,8 +21,8 @@ class PaymentMethod(models.TextChoices):
     CASH_ON_DELIVERY = 'Cash on Delivery', 'Cash on Delivery'
 
 
-class Cart(models.Model):
-    customer = models.ForeignKey('User', on_delete=models.CASCADE, related_name='carts')
+class Cart(BaseModel):
+    customer = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='carts')
     restaurant = models.ForeignKey('restaurants.Restaurant', 
                                    on_delete=models.CASCADE, 
                                    related_name='carts')
@@ -32,6 +32,7 @@ class Cart(models.Model):
     def cal_total(self):
         total = sum(item.subtotal for item in self.items.all())
         self.total = total
+        self.save()(update_fields=['total'])
         
 
     def __str__(self):
@@ -63,7 +64,7 @@ class Order(BaseModel):
                                    blank=True, 
                                    null=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    rider = models.ForeignKey('couriers.Courier', 
+    rider = models.ForeignKey('accounts.User', 
                               on_delete=models.SET_NULL, 
                               null=True, 
                               blank=True, 
@@ -84,15 +85,15 @@ class Order(BaseModel):
     def save(self, *args, **kwargs):
         if not self.tracking_code:
             self.tracking_code = self.tracking_code_generator()
+
+        total = sum(item.subtotal for item in self.items.all())
+        self.total_amount = total + self.delivery_fee
         super().save(*args, **kwargs)
 
     def tracking_code_generator(self):
         import uuid
         return f"DLV-{uuid.uuid4().hex[:8].upper()}"
-    
-    def cal_total_amount(self):
-        total = sum(item.subtotal for item in self.items.all())
-        self.total_amount = total + self.delivery_fee
+        
         
 
     def __str__(self):
@@ -114,6 +115,9 @@ class OrderItem(BaseModel):
     def save(self, *args, **kwargs):
         self.subtotal = self.price * self.quantity
         super().save(*args, **kwargs)
-
+    
+    def get_menu_item_name(self):
+        return self.menu_item.name if self.menu_item else "Item no longer available"
+    
     def __str__(self):
-        return f"{self.quantity} x {self.menu_item.name} in Order {self.order.id}"
+        return f"{self.quantity} x {self.get_menu_item_name()} in Order {self.order.id}"
