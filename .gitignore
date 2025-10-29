@@ -1,2 +1,8 @@
 /docs
 docs/
+
+/.vscode
+.vscode/
+
+
+__pycache__/

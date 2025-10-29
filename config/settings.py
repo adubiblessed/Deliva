@@ -37,7 +37,7 @@ MAIN_APPS =[
     'apps.menu',
     'apps.customers',
     'apps.couriers',
-    'apps.notifcations',
+    'apps.notifications',
     'apps.restaurants',
 ]
 

@@ -56,11 +56,11 @@ class CartItem(BaseModel):
         unique_together = ('cart', 'menu_item')
 
 class Order(BaseModel):
-    customer = models.ForeignKey('User', on_delete=models.SET_NULL, related_name='orders', 
+    customer = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, related_name='orders', 
                                  null=True, blank=True)
     restaurant = models.ForeignKey('restaurants.Restaurant', 
                                    on_delete=models.SET_NULL, 
-                                   related_name='orders',
+                                   related_name='orders_restaurant',
                                    blank=True, 
                                    null=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -68,7 +68,7 @@ class Order(BaseModel):
                               on_delete=models.SET_NULL, 
                               null=True, 
                               blank=True, 
-                              related_name='orders')
+                              related_name='orders_riders')
     status = models.CharField(max_length=30, choices=OrderStatus.choices, default=OrderStatus.PENDING)
     delivery_address = models.TextField()
     delivery_fee = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
