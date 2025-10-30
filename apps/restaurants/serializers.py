@@ -11,4 +11,5 @@ class RestaurantSerializer(serializers.ModelSerializer):
             'open_time', 'close_time', 'delivery_fee', 'min_order_amount'
         ]
 
+        # Read only fields
         
