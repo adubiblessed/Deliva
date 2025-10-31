@@ -10,6 +10,13 @@ class MenuCategory(BaseModel):
     is_active = models.BooleanField(default=True)
     position = models.PositiveIntegerField(default=0)
 
+    # assign position based on existing categories
+    def save(self, *args, **kwargs):
+        if not self.position:
+            max_position = MenuCategory.objects.filter(restaurant=self.restaurant).aggregate(models.Max('position'))['position__max']
+            self.position = (max_position or 0) + 1
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} - {self.restaurant.name}"
     
