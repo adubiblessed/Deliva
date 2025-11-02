@@ -41,6 +41,7 @@ urlpatterns = [
     path('restaurants/', include('apps.restaurants.urls')),
     path('menu/', include('apps.menu.urls')),
     path('orders/', include('apps.orders.urls')),
+    path('riders/', include('apps.couriers.urls')),
 
     # ... other URL patterns
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
