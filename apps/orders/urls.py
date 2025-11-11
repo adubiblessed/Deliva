@@ -8,8 +8,8 @@ from .views import (
     CartItemEachView,
     OrderCheckoutView,
     OrderView,
-    # OrderDetailView,
-    # OrderStatusUpdateView,
+    OrderDetailsView,
+    OrderStatusUpdateView,
     # OrderTrackingView,
     # RefundRequestView,
 )
@@ -20,8 +20,8 @@ urlpatterns = [
     path('cart/items/<str:id>/', CartItemEachView.as_view(), name='each_cart_item'),
     path('checkout/', OrderCheckoutView.as_view(), name='place_order'),
     path('orders/', OrderView.as_view(), name='list_user_orders'),
-    # path('orders/<int:id>/', OrderDetailView.as_view(), name='order_details'),
-    # path('orders/<int:id>/status/', OrderStatusUpdateView.as_view(), name='update_order_status'),
-    # path('orders/<int:id>/track/', OrderTrackingView.as_view(), name='track_order'),
-    # path('orders/<int:id>/refund/', RefundRequestView.as_view(), name='request_refund'),
+    path('orders/<str:id>/', OrderDetailsView.as_view(), name='order_details'),
+    path('orders/<str:id>/status/', OrderStatusUpdateView.as_view(), name='update_order_status'),
+    # path('orders/<str:id>/track/', OrderTrackingView.as_view(), name='track_order'),
+    # path('orders/<str:id>/refund/', RefundRequestView.as_view(), name='request_refund'),
 ]

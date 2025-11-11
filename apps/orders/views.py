@@ -71,6 +71,19 @@ class OrderView(APIView):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+
+class OrderDetailsView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request, pk):
+        try:
+            order = Order.objects.get(pk=pk, customer=request.user)
+        except Order.DoesNotExist:
+            return Response({"detail": "Item not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
     
 class OrderCheckoutView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -117,3 +130,4 @@ class OrderStatusUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

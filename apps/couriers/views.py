@@ -108,3 +108,11 @@ class DeliveryTrackView(APIView):
         
         serializer = DeliverySerializer(delivery)
         return Response(serializer.data)
+
+class DeliveryByRiderView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request, rider_id):
+        deliveries = Delivery.objects.filter(rider_id=rider_id)
+        serializer = DeliverySerializer(deliveries, many=True)
+        return Response(serializer.data)

@@ -5,8 +5,8 @@ from django.urls import path
 from .views import (RiderProfileView, EachRiderProfileView, 
                     DeliveryAssignmentViewAll, VehicleView, 
                     DeliveryAssignmentView, RiderDeliveriesView, 
-                    DeliveryStatusUpdateView, DeliveryTrackView
-                    #DeliveryListView
+                    DeliveryStatusUpdateView, DeliveryTrackView,
+                    DeliveryByRiderView
                     )
 
 urlpatterns = [
@@ -16,7 +16,7 @@ urlpatterns = [
     path('delivery-assignments/', DeliveryAssignmentViewAll.as_view(), name='delivery-assignment'),
     path('vehicles/', VehicleView.as_view(), name='vehicle'),
     path('<str:id>/deliveries/', RiderDeliveriesView.as_view(), name='rider-deliveries'),
-    #path('deliveries/', DeliveryListView.as_view(), name='delivery-list'),
+    path('deliveries/', DeliveryByRiderView.as_view(), name='delivery-list'),
     path('deliveries/<str:id>/status/', DeliveryStatusUpdateView.as_view(), name='delivery-status-update'),
     path('deliveries/<str:id>/track/', DeliveryTrackView.as_view(), name='delivery-track'),
 ]
