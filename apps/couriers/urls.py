@@ -6,7 +6,8 @@ from .views import (RiderProfileView, EachRiderProfileView,
                     DeliveryAssignmentViewAll, VehicleView, 
                     DeliveryAssignmentView, RiderDeliveriesView, 
                     DeliveryStatusUpdateView, DeliveryTrackView,
-                    DeliveryByRiderView
+                    DeliveryByRiderView,
+                    Ratings
                     )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('deliveries/', DeliveryByRiderView.as_view(), name='delivery-list'),
     path('deliveries/<str:id>/status/', DeliveryStatusUpdateView.as_view(), name='delivery-status-update'),
     path('deliveries/<str:id>/track/', DeliveryTrackView.as_view(), name='delivery-track'),
+    path('ratings/<str:rider_id>/', Ratings.as_view(), name='rider-ratings'),
 ]

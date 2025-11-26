@@ -116,3 +116,30 @@ class DeliveryByRiderView(APIView):
         deliveries = Delivery.objects.filter(rider_id=rider_id)
         serializer = DeliverySerializer(deliveries, many=True)
         return Response(serializer.data)
+
+class Ratings(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request, rider_id):
+        try:
+            rider = RiderProfile.objects.get(id=rider_id)
+        except RiderProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        rating = request.data.get('rating')
+        if rating is not None:
+            rider.rating = rating
+            rider.save()
+            serializer = RiderProfileSerializer(rider)
+            return Response(serializer.data)
+        return Response({"detail": "Rating not provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def get(self, request, rider_id):
+        try:
+            rider = RiderProfile.objects.get(id=rider_id)
+        except RiderProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = RiderProfileSerializer(rider)
+        return Response({"rating": serializer.data.get('rating')})

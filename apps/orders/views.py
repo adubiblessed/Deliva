@@ -5,7 +5,8 @@ from rest_framework.authentication import TokenAuthentication
 
 from apps.restaurants.models import Restaurant
 from .models import Cart, Order, OrderItem
-from .serializers import CartSerializer, OrderSerializer, OrderItemSerializer
+from .serializers import CartSerializer, OrderSerializer, OrderItemSerializer, DeliverySerializer
+from apps.restaurants.models import Delivery
 
 class CartView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -130,4 +131,31 @@ class OrderStatusUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DeliveryStatusUpdateView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def patch(self, request, id):
+        try:
+            delivery = Delivery.objects.get(id=id)
+        except Delivery.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DeliverySerializer(delivery, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DeliveryTrackView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request, id):
+        try:
+            delivery = Delivery.objects.get(id=id)
+        except Delivery.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DeliverySerializer(delivery)
+        return Response(serializer.data)
     

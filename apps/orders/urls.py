@@ -10,7 +10,7 @@ from .views import (
     OrderView,
     OrderDetailsView,
     OrderStatusUpdateView,
-    # OrderTrackingView,
+    DeliveryTrackView,
     # RefundRequestView,
 )
 
@@ -22,6 +22,6 @@ urlpatterns = [
     path('orders/', OrderView.as_view(), name='list_user_orders'),
     path('orders/<str:id>/', OrderDetailsView.as_view(), name='order_details'),
     path('orders/<str:id>/status/', OrderStatusUpdateView.as_view(), name='update_order_status'),
-    # path('orders/<str:id>/track/', OrderTrackingView.as_view(), name='track_order'),
+    path('orders/<str:id>/track/', DeliveryTrackView.as_view(), name='track_order'),
     # path('orders/<str:id>/refund/', RefundRequestView.as_view(), name='request_refund'),
 ]

@@ -84,3 +84,6 @@ class RestaurantMenuApiView(APIView):
             })
         
         return Response({'restaurant': restaurant.name, 'menu': menu_data}, status=status.HTTP_200_OK)
+
+
+

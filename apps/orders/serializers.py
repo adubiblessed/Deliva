@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from apps.orders.models import Order, OrderItem, Cart
 
+from apps.restaurants.models import Delivery
+
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
@@ -16,4 +18,9 @@ class OrderSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
+        fields = '__all__'
+
+class DeliverySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Delivery
         fields = '__all__'
