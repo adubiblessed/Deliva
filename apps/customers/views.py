@@ -2,12 +2,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from rest_framework.authtoken.models import Token
-from rest_framework.authentication import TokenAuthentication
 from apps.customers.models import Address
-
 from apps.customers.serializers import UserAddressSerializer
-# Create your views here.
+
 
 
 class UserAddress(APIView):
