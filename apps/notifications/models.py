@@ -1,7 +1,7 @@
 from django.db import models
 import re
 # Create your models here.
-from accounts.models import User
+from apps.accounts.models import User
 
 
 class ChannelType(models.TextChoices):
@@ -36,15 +36,9 @@ class NotificationTemplate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-# class Notifications(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
-#     content = models.ForeignKey(NotificationTemplate, on_delete=models.CASCADE, related_name="notifications")
-#     payload = models.JSONField(default=dict, help_text="Data to replace template placeholders.")
-#     is_read = models.BooleanField(default=False) 
-#     created_at = models.DateTimeField(auto_now_add=True)#
 
 
-class ApiNotification(models.Model):
+class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='api_notifications')
     content = models.ForeignKey(NotificationTemplate, on_delete=models.CASCADE, related_name='api_notifications')
     payload = models.JSONField(default=dict)
