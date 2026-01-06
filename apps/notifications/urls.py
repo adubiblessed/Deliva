@@ -4,5 +4,5 @@ from apps.notifications.views import CreateNotificationTemplate, PushNotificatio
 
 urlpatterns = [
     path("template/", CreateNotificationTemplate.as_view(), name="notification_template"),
-    path("", PushNotification.as_view(), name="notification_template"),
+    path("push/", PushNotification.as_view(), name="notification_template"), #this is used to send notification
 ]

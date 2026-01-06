@@ -7,6 +7,8 @@ from apps.notifications.services import NotificationService
 from apps.notifications.serializers import NotificationSerializer, NotificationTemplateSerializer
 
 
+
+
 class ApiNotification(APIView):
     
     def get(self):
@@ -24,15 +26,16 @@ class CreateNotificationTemplate(APIView):
 
 class PushNotification(APIView):
     def post(self, request):
+        
         serializer = NotificationSerializer(data=request.data)
         if serializer.is_valid():
             notification = serializer.save()
 
             notify = NotificationService()
-            final = notify.notification_contents(template=notification.content.template,payload=notification.payload)
+            final =  notify.notification_contents(template=notification.content.template,payload=notification.payload)
             print(final)
 
             return Response({
-              "message": "Notification sent successfully"
+            "message": "Notification sent successfully"
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
