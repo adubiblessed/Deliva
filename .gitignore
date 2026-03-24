@@ -1,6 +1,9 @@
 /docs
 docs/
 
+
+.env
+
 /.vscode
 .vscode/
 
@@ -8,5 +11,7 @@ docs/
 __pycache__/
 
 Deliva.code-workspace
-
+.sqlite3
 db.sqlite3
+
+.gitignore

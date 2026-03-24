@@ -1,5 +1,4 @@
 import re
-from apps.notifications.models import NotificationTemplate, Notification
 
 class NotificationService:
     def __init__(self):

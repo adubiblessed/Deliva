@@ -2,14 +2,14 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
-
-from apps.restaurants.models import Restaurant
+from rest_framework.permissions import IsAuthenticated
 from .models import Cart, Order, OrderItem
 from .serializers import CartSerializer, OrderSerializer, OrderItemSerializer, DeliverySerializer
 from apps.restaurants.models import Delivery
 
 class CartView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         cart = Cart.objects.filter(customer=request.user).first()
@@ -31,6 +31,7 @@ class CartView(APIView):
 
 class CartItemView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = OrderItemSerializer(data=request.data)
@@ -42,6 +43,7 @@ class CartItemView(APIView):
 
 class CartItemEachView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def put(self, request, pk):
         try:
@@ -66,6 +68,7 @@ class CartItemEachView(APIView):
 
 class OrderView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         orders = Order.objects.filter(customer=request.user)
@@ -88,6 +91,7 @@ class OrderDetailsView(APIView):
     
 class OrderCheckoutView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         cart = Cart.objects.filter(customer=request.user).first()
@@ -119,6 +123,7 @@ class OrderCheckoutView(APIView):
 
 class OrderStatusUpdateView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
         try:
@@ -134,6 +139,7 @@ class OrderStatusUpdateView(APIView):
     
 class DeliveryStatusUpdateView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, id):
         try:
@@ -149,6 +155,7 @@ class DeliveryStatusUpdateView(APIView):
     
 class DeliveryTrackView(APIView):
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id):
         try:

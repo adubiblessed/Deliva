@@ -7,3 +7,4 @@ urlpatterns = [
     path('<str:pk>/', EachRestaurantApiView.as_view(), name='restaurant-detail'),
     path('<str:pk>/menu/', RestaurantMenuApiView.as_view(), name='restaurant-menu'),
 ]
+

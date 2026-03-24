@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .models import Restaurant
 from apps.menu.models import MenuItem, MenuCategory
 from apps.menu.serialisers import MenuItemSerializers
@@ -10,6 +11,7 @@ from .serializers import RestaurantSerializer
 
 class RestaurantsApiView(APIView):
     authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = RestaurantSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,6 +26,7 @@ class RestaurantsApiView(APIView):
         serializer = RestaurantSerializer(restaurants, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+#this can be chached later when there is high traffic since it is majorly a read only api 
 class AllRestaurantsApiView(APIView):
     def get(self, request):
         restaurants = Restaurant.objects.all()
@@ -33,6 +36,7 @@ class AllRestaurantsApiView(APIView):
 
 class EachRestaurantApiView(APIView):
     authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get_object(self, pk, user):
         try:
@@ -67,6 +71,7 @@ class EachRestaurantApiView(APIView):
 
 # return all items that belongs to a restaurant
 class RestaurantMenuApiView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, pk):
         try:
             restaurant = Restaurant.objects.get(pk=pk)
